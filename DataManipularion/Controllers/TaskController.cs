@@ -1,4 +1,5 @@
 ﻿using DataManipularion.Entitys;
+using DataManipularion.Service;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,79 +14,39 @@ namespace DataManipularion.Controllers
 
         private static List<Tasks> fakeTasksBase = new List<Tasks>();
 
+        private static TasksService tasksService = new TasksService(); 
 
-        [HttpGet("Tasks")]
-        public ActionResult<JsonTasks> GetTasks()
+        [HttpGet]
+        public async Task<ActionResult<JsonTasks>> GetTasks()
         {
-            var jsonTasks = new JsonTasks();
-            try
-            {
-                jsonTasks.Success = true;
-                jsonTasks.Tasks = fakeTasksBase;
+            //var jsonTasks = new JsonTasks();
+            //try
+            //{
+            //    jsonTasks.Success = true;
+            //    jsonTasks.Tasks = fakeTasksBase;
 
-                return jsonTasks;
-            }
-            catch (Exception ex)
-            {
-                jsonTasks.SetError(ex.Message);
+            //    return jsonTasks;
+            //}
+            //catch (Exception ex)
+            //{
+            //    jsonTasks.SetError(ex.Message);
 
-                return jsonTasks;
-            };
+            //    return jsonTasks;
+            //};
+
+            return await tasksService.GetTasks();
         }
 
-        [HttpPost("Tasks")]
-        public ActionResult<JsonBase> IncludeTasks(Tasks newTask)
+        [HttpPost]
+        public async Task<ActionResult<JsonBase>> IncludeTasks(Tasks newTask)
         {
-            var jsonBase = new JsonBase();
-            try
-            {
-                newTask.AddId(singleton.Id());
-
-                fakeTasksBase.Add(newTask);
-
-                jsonBase.Success = true;
-                jsonBase.Message = "Inclido";
-
-                return jsonBase;
-            }
-            catch (Exception ex)
-            {
-                jsonBase.SetError(ex.Message);
-
-                return jsonBase;
-            }
+            return await tasksService.IncludeTasks(newTask);
         }
 
-        [HttpPut("Tasks/{id}")]
-        public ActionResult<JsonBase> AlterTasks(int id, Tasks updateTask)
+        [HttpPut("Alter/{id}")]
+        public async Task<ActionResult<JsonBase>> AlterTasks(int id, Tasks updateTask)
         {
-            var jsonBase = new JsonBase();
-            try
-            {
-                foreach (var task in fakeTasksBase)
-                {
-                    if (task.Id != id)
-                        continue;
-
-                    task.Title = updateTask.Title;
-                    task.Description = updateTask.Description;
-                    task.DueDate = updateTask.DueDate;
-
-                    jsonBase.Success = true;
-                    jsonBase.Message = "Alterada";
-
-                    return jsonBase;
-                }
-
-                throw new Exception("Task não encontrada");
-
-            }
-            catch (Exception ex)
-            {
-                jsonBase.SetError(ex.Message);
-
-                return jsonBase;
-            }
+            return await tasksService.AlterTasks(id, updateTask);
         }
     }
 }
