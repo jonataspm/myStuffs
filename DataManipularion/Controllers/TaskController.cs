@@ -10,30 +10,11 @@ namespace DataManipularion.Controllers
     [Route("api/[controller]")]
     public class TaskController : ControllerBase
     {
-        private static Singleton singleton = Singleton.GetInstance();
-
-        private static List<Tasks> fakeTasksBase = new List<Tasks>();
-
         private static TasksService tasksService = new TasksService(); 
 
         [HttpGet]
         public async Task<ActionResult<JsonTasks>> GetTasks()
         {
-            //var jsonTasks = new JsonTasks();
-            //try
-            //{
-            //    jsonTasks.Success = true;
-            //    jsonTasks.Tasks = fakeTasksBase;
-
-            //    return jsonTasks;
-            //}
-            //catch (Exception ex)
-            //{
-            //    jsonTasks.SetError(ex.Message);
-
-            //    return jsonTasks;
-            //};
-
             return await tasksService.GetTasks();
         }
 
