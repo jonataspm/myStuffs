@@ -1,13 +1,19 @@
 ﻿using DataManipularion.Entitys;
 using DataManipularion.Entitys.Base;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 
 namespace DataManipularion.Service
 {
     public class TasksService : ITasksService
     {
-        //private MongoData _mongo;
-        public TasksService() { } 
+        MongoData _mongoData;
+        private readonly IMongoCollection<Tasks> _mongoCollection;
+        public TasksService(MongoData mongoData)
+        {
+            _mongoData = mongoData;
+        }
 
         public async Task<ActionResult<JsonBase>> AlterTasks(int id, Tasks updateTask)
         {
@@ -33,6 +39,7 @@ namespace DataManipularion.Service
             try
             {
                 jsonTasks.Success = true;
+                jsonTasks.Tasks = _mongoCollection.Find(_=> true).ToList();  
 
                 return jsonTasks;
             }
@@ -49,7 +56,7 @@ namespace DataManipularion.Service
             var jsonBase = new JsonBase();
             try
             {
-
+                _mongoCollection.InsertOne(newTask);
                 jsonBase.Success = true;
                 jsonBase.Message = "Inclido";
 

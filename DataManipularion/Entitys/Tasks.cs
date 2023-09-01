@@ -7,7 +7,8 @@ namespace DataManipularion.Entitys
     public class Tasks
     {
         [BsonId]
-        private ObjectId Id { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        private string Id { get; set; }
 
         public string Title { get; set; }  
 

@@ -1,7 +1,10 @@
+using DataManipularion.Entitys.Base;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.Configure<MongoData>(builder.Configuration.GetSection("MongoConnectionString"));
+builder.Services.AddSingleton<MongoData>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
