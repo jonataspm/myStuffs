@@ -14,5 +14,6 @@ namespace EstruturaDeDados2
         public int info;
         public Node left;
         public Node right;
+        public Node parent;
     }
 }
