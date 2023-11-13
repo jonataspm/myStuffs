@@ -20,32 +20,7 @@ public class Program
         grafo.adicionarAresta(8, v1, v4);
         grafo.adicionarAresta(10, v3, v4);
 
-        grafo.Vertices.ForEach(prop => prop.Info = double.PositiveInfinity); //Define as infos como infinitas
 
-        v2.Info = 0; //Define Origem
-
-        List<Vertice> list = grafo.Vertices;
-
-        while (list is not null) 
-        {
-            var position = list.OrderBy(prop => prop.Info).First(); //Orderna de forma crescete pelo os Info e pega o 1º
-                
-            list.Remove(position);
-
-            foreach (var adj in position.Adjacentes)
-            {
-                if (!list.Contains(adj))
-                    continue;
-
-                var peso = grafo.GetPeso(position, adj);
-                var distance = position.Info + peso;
-
-                if (distance < adj.Info)
-                    adj.Info = distance;
-            }
-        }
-        
-        grafo.Vertices.ForEach(prop => Console.WriteLine($" Vertcie: {prop} \nInfo: {prop.Info}"));
     }
 }
        

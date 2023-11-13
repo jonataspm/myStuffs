@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NumberR", "NumberR\NumberR.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NumberTests", "NumberTests\NumberTests.csproj", "{56D301E7-C541-483C-A029-36B46CE1B476}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataManipularion", "DataManipularion\DataManipularion.csproj", "{9BDF81A5-3B93-4E68-A2C1-637471D652C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataManipularion", "DataManipularion\DataManipularion.csproj", "{9BDF81A5-3B93-4E68-A2C1-637471D652C0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ED23.2", "ED23.2\ED23.2.csproj", "{7B341484-C0AD-4901-99C2-7BD277BCE66C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{9BDF81A5-3B93-4E68-A2C1-637471D652C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9BDF81A5-3B93-4E68-A2C1-637471D652C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9BDF81A5-3B93-4E68-A2C1-637471D652C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B341484-C0AD-4901-99C2-7BD277BCE66C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B341484-C0AD-4901-99C2-7BD277BCE66C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B341484-C0AD-4901-99C2-7BD277BCE66C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B341484-C0AD-4901-99C2-7BD277BCE66C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
