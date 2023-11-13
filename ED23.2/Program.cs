@@ -43,7 +43,9 @@ public class Program
                 if (distance < adj.Info)
                     adj.Info = distance;
             }
-        }    
+        }
+        
+        grafo.Vertices.ForEach(prop => Console.WriteLine($" Vertcie: {prop} \nInfo: {prop.Info}"));
     }
 }
        
