@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,37 +25,37 @@ namespace ED23._2
             Arestas.Add(novaAresta);
         }
 
-        public void BuscaEmLargura(Vertice origem)
+        public List<Vertice> BuscaEmLargura(Vertice origem)
         {
-            List<Vertice> fila = new List<Vertice> { origem };
-            HashSet<Vertice> visitados = new HashSet<Vertice>();
-            visitados.Add(origem);
+            List<Vertice> marks = new List<Vertice> { origem };
+            List<Vertice> aux = new List<Vertice>();
+            aux.Add(origem);
 
-            while (fila.Count > 0)
+            while (aux.Count > 0)
             {
-                Vertice verticeAtual = fila[0];
-                fila.RemoveAt(0);
+                Vertice verticeAtual = aux[0];
+                aux.RemoveAt(0);
                 Console.WriteLine($"Visitando vértice: {verticeAtual}");
 
-                List<Vertice> vizinhos = verticeAtual.Adjacentes;
-                foreach (Vertice vizinho in vizinhos)
+                foreach (var vizinho in verticeAtual.Adjacentes)
                 {
-                    if (!visitados.Contains(vizinho))
+                    if (!marks.Contains(vizinho))
                     {
-                        fila.Add(vizinho);
-                        visitados.Add(vizinho);
+                        marks.Add(vizinho);
+                        aux.Add(vizinho);
                     }
                 }
             }
+            return marks;
         }
 
-        public void BuscaEmProfundidade(Vertice origens)
+        public void BuscaProfundidadeRecursiva(Vertice origens)
         {
             HashSet<Vertice> visitados = new HashSet<Vertice>();
-            _BuscaProfundidadeRecursiva(origens, visitados);
+            _BuscaProfundidadeRecursiva2(origens, visitados);
         }
 
-        private void _BuscaProfundidadeRecursiva(Vertice verticeAtual, HashSet<Vertice> visitados)
+        private void _BuscaProfundidadeRecursiva2(Vertice verticeAtual, HashSet<Vertice> visitados)
         {
             visitados.Add(verticeAtual);
             Console.WriteLine($"Visitando vértice {verticeAtual}");
@@ -63,9 +64,31 @@ namespace ED23._2
             {
                 if (!visitados.Contains(vizinho))
                 {
-                    _BuscaProfundidadeRecursiva(vizinho, visitados);
+                    _BuscaProfundidadeRecursiva2(vizinho, visitados);
                 }
             }
+        }
+
+        public List<Vertice> BuscaEmProfundidade(Vertice origem)
+        {
+            List<Vertice> marks = new List<Vertice> { origem };
+            Stack<Vertice> aux = new Stack<Vertice>(); 
+            aux.Push(origem);
+
+            while (aux.Count > 0) 
+            { 
+                var top = aux.Peek();
+                
+                if (vizinho != null && !marks.Contains(vizinho)) 
+                { 
+                    marks.Add(vizinho);
+                    aux.Push(vizinho);
+                }
+                else
+                    aux.Pop();
+              
+            }
+            return marks;
         }
 
         public void GetPesos(Vertice? orn)
@@ -94,16 +117,15 @@ namespace ED23._2
 
             while (list is not null)
             {
-                var position = list.OrderBy(prop => prop.Info).First(); //Orderna de forma crescete pelo os Info e pega o 1º
-                list.Remove(position);
+                var verticeSelected = list.OrderBy(prop => prop.Info).First(); //Orderna de forma crescete pelo os Info e pega o 1º
+                list.Remove(verticeSelected);
 
-                foreach (var adj in position.Adjacentes)
+                foreach (var adj in verticeSelected.Adjacentes)
                 {
                     if (!list.Contains(adj))
                         continue;
 
-                    var peso = GetPeso(position, adj);
-                    var distance = position.Info + peso;
+                    var distance = verticeSelected.Info;
 
                     if (distance < adj.Info)
                         adj.Info = distance;
