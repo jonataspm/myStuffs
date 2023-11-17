@@ -78,11 +78,19 @@ namespace ED23._2
             while (aux.Count > 0) 
             { 
                 var top = aux.Peek();
+                var vizinhos = top.Adjacentes;
                 
-                if (vizinho != null && !marks.Contains(vizinho)) 
-                { 
-                    marks.Add(vizinho);
-                    aux.Push(vizinho);
+                if (vizinhos != null) 
+                {
+                    vizinhos.ForEach(vizinho =>
+                    {
+                        if (!marks.Contains(vizinho)) { 
+                            marks.Add(vizinho);
+                            aux.Push(vizinho);
+                            
+                        }
+                    });
+                   
                 }
                 else
                     aux.Pop();
