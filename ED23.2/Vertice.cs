@@ -8,6 +8,7 @@ namespace ED23._2
 {
     public class Vertice
     {
+        public string Name;
         public double Info;
         public List<Vertice> Adjacentes = new List<Vertice>();
 
@@ -18,6 +19,11 @@ namespace ED23._2
         public Vertice(double i)
         {
             Info = i;
+        }
+        public Vertice(double i, string n)
+        {
+            Info = i;
+            Name = n; 
         }
     }
 }

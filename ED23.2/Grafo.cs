@@ -17,7 +17,7 @@ namespace ED23._2
             Vertices.Add(vertice);
         }
 
-        public void adicionarAresta(decimal peso, Vertice org, Vertice dst)
+        public void adicionarAresta(double peso, Vertice org, Vertice dst)
         {
             Aresta novaAresta = new Aresta(peso, org, dst);
             org.Adjacentes.Add(dst);
@@ -35,7 +35,6 @@ namespace ED23._2
             {
                 Vertice verticeAtual = aux[0];
                 aux.RemoveAt(0);
-                Console.WriteLine($"Visitando vértice: {verticeAtual}");
 
                 foreach (var vizinho in verticeAtual.Adjacentes)
                 {
@@ -58,7 +57,6 @@ namespace ED23._2
         private void _BuscaProfundidadeRecursiva2(Vertice verticeAtual, HashSet<Vertice> visitados)
         {
             visitados.Add(verticeAtual);
-            Console.WriteLine($"Visitando vértice {verticeAtual}");
 
             foreach (Vertice vizinho in verticeAtual.Adjacentes)
             {
@@ -79,18 +77,24 @@ namespace ED23._2
             { 
                 var top = aux.Peek();
                 var vizinhos = top.Adjacentes;
-                
+
                 if (vizinhos != null) 
                 {
-                    vizinhos.ForEach(vizinho =>
+                    int i=0;
+                    for (i = 0 ; i < vizinhos.Count; i++) 
                     {
-                        if (!marks.Contains(vizinho)) { 
-                            marks.Add(vizinho);
-                            aux.Push(vizinho);
-                            
+                        if (!marks.Contains(vizinhos[i])) 
+                        {
+                            marks.Add(vizinhos[i]);
+                            aux.Push(vizinhos[i]);
+                            break;
                         }
-                    });
-                   
+                        
+                    }
+
+                    if(i == vizinhos.Count)
+                        aux.Pop();
+
                 }
                 else
                     aux.Pop();
@@ -99,13 +103,13 @@ namespace ED23._2
             return marks;
         }
 
-        public void GetPesos(Vertice? orn)
+        public List<Vertice> Dijkstra(Vertice orn)
         {
-
-            Vertices.ForEach(prop => prop.Info = double.PositiveInfinity); //Define as infos como infinitas
+            List<Vertice> listVerticie = new List<Vertice>(Vertices); // Cria uma cópia
+            listVerticie.ForEach(prop => prop.Info = double.PositiveInfinity);
 
             if (orn is null)
-                Vertices[0].Info = 0;
+                listVerticie[0].Info = 0;
             else
             {
                 var origem = Vertices.Find(prop => prop == orn);
@@ -113,35 +117,67 @@ namespace ED23._2
                 if (origem is not null)
                     origem.Info = 0;
                 else
-                { 
-                    Console.Write("Verticie não Encontrada"); 
-                    return; 
+                {
+                    throw new Exception("Vértice não encontrado");
                 }
-
             }
 
-            List<Vertice> list = new List<Vertice>();
-            list = Vertices;
+            List<Vertice> listAux = new List<Vertice>(listVerticie);
 
-            while (list is not null)
+            while (listAux.Count > 0)
             {
-                var verticeSelected = list.OrderBy(prop => prop.Info).First(); //Orderna de forma crescete pelo os Info e pega o 1º
-                list.Remove(verticeSelected);
+                var verticeSelected = listAux.OrderBy(prop => prop.Info).First();
+                listAux.Remove(verticeSelected);
 
                 foreach (var adj in verticeSelected.Adjacentes)
                 {
-                    if (!list.Contains(adj))
+                    if (!listAux.Contains(adj))
                         continue;
 
-                    var distance = verticeSelected.Info;
+                    var peso = GetPeso(verticeSelected, adj);
+                    var distance = verticeSelected.Info + peso;
 
                     if (distance < adj.Info)
                         adj.Info = distance;
                 }
             }
 
-            Vertices.ForEach(prop => Console.WriteLine($" Vertcie: {prop} \nInfo: {prop.Info}"));
+            return listVerticie;
         }
 
+
+        public double GetPeso(Vertice from, Vertice to) 
+        {
+            var aresta = Arestas.Find(prop => (prop.Vertice1 == from && prop.Vertice2 == to) || (prop.Vertice1 == to && prop.Vertice2 == from) );
+
+            return aresta.Peso;
+        }
+
+        public void Print(List<Vertice> vertices)
+        {
+            string console = "";
+            foreach (var vertcie in vertices)
+                console += $"{vertcie.Info} ";
+
+            Console.WriteLine(console);
+        }
+
+        public void PrintN(List<Vertice> vertices)
+        {
+            string console = "";
+            foreach (var vertcie in vertices)
+                console += $"{vertcie.Name} ";
+
+            Console.WriteLine(console);
+        }
+
+        public void PrintNI(List<Vertice> vertices)
+        {
+            string console = "";
+            foreach (var vertcie in vertices)
+                console += $"{vertcie.Name} = {vertcie.Info} \n";
+
+            Console.WriteLine(console);
+        }
     }
 }

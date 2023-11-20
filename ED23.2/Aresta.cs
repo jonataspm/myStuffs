@@ -8,7 +8,7 @@ namespace ED23._2
 {
     public class Aresta
     {
-        public decimal Peso;
+        public double Peso;
         public Vertice Vertice1;
         public Vertice Vertice2;
 
@@ -16,7 +16,7 @@ namespace ED23._2
         {
         }
 
-        public Aresta(decimal p, Vertice v1, Vertice v2)
+        public Aresta(double p, Vertice v1, Vertice v2)
         {
             Peso = p;
             Vertice1 = v1;
