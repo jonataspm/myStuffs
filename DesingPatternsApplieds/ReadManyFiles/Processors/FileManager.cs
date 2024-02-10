@@ -9,11 +9,22 @@ namespace DesingPatternsApplieds.ReadManyFiles.Processors
 
         public void ProcessFile(string filePath)
         {
-            var streamReader = new StreamReader(filePath);
-            var line = streamReader.ReadLine(); 
+           var file = File.OpenRead(filePath);
             
-            _interpreter.Parse(line);
+            if (file == null)
+                throw new Exception("Arquivo Vazio");
+
+            StreamReader reader = new StreamReader(filePath);
+            
+            string? line;
+            List<ILine> list = new List<ILine>();
+            while ((line = reader.ReadLine()) != null)
+            {
+                list.Add(_interpreter.Parse(line));
+            }
+
+            ProcessLine(list);
         }
-        public abstract void ProcessLine();
+        protected abstract void ProcessLine(List<ILine> line);
     }
 }

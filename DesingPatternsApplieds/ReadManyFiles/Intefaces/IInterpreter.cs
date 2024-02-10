@@ -8,6 +8,6 @@ namespace DesingPatternsApplieds.ReadManyFiles.Intefaces
 {
     public interface IInterpreter
     {
-        public abstract ILine Parse(string data);
+        abstract ILine Parse(string data);
     }
 }

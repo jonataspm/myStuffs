@@ -8,6 +8,6 @@ namespace DesingPatternsApplieds.ReadManyFiles.Intefaces
 {
     public interface ILine
     {
-        public abstract void Process(string data);
+        abstract void Process(string data);
     }
 }

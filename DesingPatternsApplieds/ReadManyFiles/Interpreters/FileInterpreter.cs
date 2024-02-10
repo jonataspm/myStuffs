@@ -16,7 +16,8 @@ namespace DesingPatternsApplieds.ReadManyFiles.Interpreters
         {
             lineInterpreterMap = new Dictionary<char, ILine>
             {
-                { '0', new Header() }
+                { '0', new Header() },
+                { '1', new DataType1() }
             };
         }
 
