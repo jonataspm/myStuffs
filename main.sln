@@ -17,7 +17,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataManipularion", "DataMan
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ED23.2", "ED23.2\ED23.2.csproj", "{7B341484-C0AD-4901-99C2-7BD277BCE66C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesingPatternsApplieds", "DesingPatternsApplieds\DesingPatternsApplieds.csproj", "{2F249740-8A81-49B6-BD57-8194FA38C11B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DesingPatternsApplieds", "DesingPatternsApplieds\DesingPatternsApplieds.csproj", "{2F249740-8A81-49B6-BD57-8194FA38C11B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Rabbit", "Rabbit", "{4F8124BE-C3F8-469B-AE30-F8C74F2A4303}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Producer", "Producer\Producer.csproj", "{9E4B5DA8-AFB8-47C4-9F72-911EC3D8BBCC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consumer", "Consumer\Consumer.csproj", "{D0980D10-B5C9-45DC-BE79-22A921D7C94C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,9 +63,21 @@ Global
 		{2F249740-8A81-49B6-BD57-8194FA38C11B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F249740-8A81-49B6-BD57-8194FA38C11B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F249740-8A81-49B6-BD57-8194FA38C11B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E4B5DA8-AFB8-47C4-9F72-911EC3D8BBCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E4B5DA8-AFB8-47C4-9F72-911EC3D8BBCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E4B5DA8-AFB8-47C4-9F72-911EC3D8BBCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E4B5DA8-AFB8-47C4-9F72-911EC3D8BBCC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0980D10-B5C9-45DC-BE79-22A921D7C94C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0980D10-B5C9-45DC-BE79-22A921D7C94C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0980D10-B5C9-45DC-BE79-22A921D7C94C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0980D10-B5C9-45DC-BE79-22A921D7C94C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9E4B5DA8-AFB8-47C4-9F72-911EC3D8BBCC} = {4F8124BE-C3F8-469B-AE30-F8C74F2A4303}
+		{D0980D10-B5C9-45DC-BE79-22A921D7C94C} = {4F8124BE-C3F8-469B-AE30-F8C74F2A4303}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9EE466B8-2E69-4DD7-A262-2903AABA8A70}

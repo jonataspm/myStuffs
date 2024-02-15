@@ -26,7 +26,6 @@ namespace DesingPatternsApplieds.ReadManyFiles
                     var processor = new FileProcessor(client);
                     processor.ProcessFile($"{file}");
                 }
-
             }
         }
     }
