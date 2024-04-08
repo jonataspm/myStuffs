@@ -16,43 +16,40 @@ namespace Server
         {
             try
             {
-                byte[] responseBytes = new byte[256];
-                char[] responseChars = new char[256];
                 while (true)
                 {
                     try
                     {
-                        string clienteMenssage = GetMenssage();
+                        string clientMessage = GetMessage();
+                        string operatorSymbol = clientMessage.Substring(0, 1);
 
-                        string operatoR = clienteMenssage.Substring(0, 1);
-                        
-                        if (operatoR == "!")
+                        if (operatorSymbol == "!")
                             break;
 
-                        clienteMenssage = clienteMenssage.Substring(1);
-                        string[] operationals = clienteMenssage.Split(";");
+                        clientMessage = clientMessage.Substring(1);
+                        string[] operands = clientMessage.Split(";");
 
                         decimal result = 0;
-                        int op1 = int.Parse(operationals[0]);
-                        int op2 = int.Parse(operationals[1]);
+                        int op1 = int.Parse(operands[0]);
+                        int op2 = int.Parse(operands[1]);
 
-                        result = GetResultOperation(operatoR, op1, op2);
-                        
-                        SendMenssage($"{result}");
+                        result = GetResultOperation(operatorSymbol, op1, op2);
+
+                        SendMessage($"{result}");
                     }
                     catch (OperatorException ex)
                     {
-                        SendMenssage(ex.Message);
+                        SendMessage(ex.Message);
                         LogGenerator.CreateLogError(ex, "StartProcess");
                     }
                     catch (FormatException ex)
                     {
-                        SendMenssage("Revise as informações enviadas");
+                        SendMessage("Revise as informações enviadas");
                         LogGenerator.CreateLogError(ex, "StartProcess");
                     }
                     catch (ArithmeticException ex)
                     {
-                        SendMenssage(ex.Message);
+                        SendMessage(ex.Message);
                         LogGenerator.CreateLogError(ex, "StartProcess");
                     }
                     catch (SocketException ex)
@@ -62,7 +59,7 @@ namespace Server
                     }
                     catch (Exception ex)
                     {
-                        SendMenssage("Houve um erro no sistema, por favor aguarde um momento.");
+                        SendMessage("Houve um erro no sistema, por favor aguarde um momento.");
                         LogGenerator.CreateLogError(ex, "StartProcess");
                         break;
                     }
@@ -80,7 +77,7 @@ namespace Server
             }
         }
 
-        private static decimal GetResultOperation(string operatoR, int op1, int op2) => operatoR switch
+        private static decimal GetResultOperation(string operatorSymbol, int op1, int op2) => operatorSymbol switch
         {
             "+" => op1 + op2,
             "-" => op1 - op2,                
@@ -89,14 +86,14 @@ namespace Server
             _ => throw new OperatorException("A operação é inválida!")
         };
 
-        private async void SendMenssage(string message)
+        private async void SendMessage(string message)
         {
             var messageBytes = Encoding.UTF8.GetBytes(message);
             _ = await client.SendAsync(messageBytes, SocketFlags.None);
             Console.WriteLine($"\nCliente: {client.RemoteEndPoint}\nMensagem Enviada: \"{message}\"");
         }
 
-        private string GetMenssage()
+        private string GetMessage()
         { 
             var buffer = new byte[1024];
 
