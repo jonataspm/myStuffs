@@ -11,7 +11,7 @@ namespace Client
     {
         private readonly Socket client;
         public ExecuteTRA(Socket client) => this.client = client;
-        public void Menu()
+        public async Task Menu()
         {
             string menu = " ___________________ \n" +
                           "|       M E N U     |\n" +
@@ -27,47 +27,20 @@ namespace Client
             int choice;
             do
             {
-                Thread.Sleep(1000);
-                string message, response;
+                Task.Delay(1000);
+   
                 Console.WriteLine(menu);
                 Console.Write("| Escolha uma opção: ");
 
-                if (!int.TryParse(Console.ReadLine(), out choice))
+                if (!int.TryParse(Console.ReadLine(), out choice) || choice < 0 || choice > 4)
                 {
                     Console.WriteLine("| Opção inválida. Por favor, escolha uma opção válida.");
                     continue;
                 }
 
-                switch (choice)
-                {
-                    case 1:
-                        message = GetProtocol("+");
-                        SendProtocol(message);
-                        response = ReciveResponse();
-                        break;
-                    case 2:
-                        message = GetProtocol("-");
-                        SendProtocol(message);
-                        response = ReciveResponse();
-                        break;
-                    case 3:
-                        message = GetProtocol("*");
-                        SendProtocol(message);
-                        response = ReciveResponse();
-                        break;
-                    case 4:
-                        message = GetProtocol("/");
-                        SendProtocol(message);
-                        response = ReciveResponse();
-                        break;
-                    case 0:
-                        SendProtocol("!");
-                        response = "Você escolheu Sair. Adeus!";
-                        break;
-                    default:
-                        response = "Opção inválida. Por favor, escolha uma opção válida.";
-                        break;
-                }
+                string message = choice == 0 ? "!" : GetProtocol((choice == 1 ? "+" : (choice == 2 ? "-" : (choice == 3 ? "*" : "/"))));
+                await SendProtocol(message);
+                string response = choice == 0 ? "Você escolheu Sair. Adeus!" : ReceiveResponse();
 
                 Console.WriteLine($"| Resultado: {response}");
                 Console.WriteLine($"| Pressione para continuar...");
@@ -77,13 +50,13 @@ namespace Client
             } while (choice != 0);
         }
 
-        private void SendProtocol(string message)
+        private async Task SendProtocol(string message)
         {
             var messageBytes = Encoding.UTF8.GetBytes(message);
-            client.SendAsync(messageBytes, SocketFlags.None);
+            await client.SendAsync(messageBytes, SocketFlags.None);
         }
 
-        private string ReciveResponse()
+        private string ReceiveResponse()
         {
             var buffer = new byte[1_024];
             var received = client.Receive(buffer, SocketFlags.None);

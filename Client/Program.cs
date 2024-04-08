@@ -1,8 +1,8 @@
-﻿using System.Net.Sockets;
+﻿using Client;
+using System;
 using System.Net;
+using System.Net.Sockets;
 using System.Text;
-using Client;
-
 
 do
 {
@@ -17,21 +17,21 @@ do
         IPAddress localAddr = IPAddress.Parse(ipAddress);
         IPEndPoint ipEndPoint = new IPEndPoint(localAddr, port);
 
-        using Socket client = new(ipEndPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+        using (Socket client = new Socket(ipEndPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp))
+        {
+            Console.WriteLine("| Aguardando Conexão...");
+            await client.ConnectAsync(ipEndPoint);
+            Console.WriteLine("| Conectado!");
 
-        Console.WriteLine("| Aguardando Conexão...");
-        await client.ConnectAsync(ipEndPoint);
-        Console.WriteLine("| Conectado!");
+            var execute = new ExecuteTRA(client);
+            execute.Menu();
+        }
 
-        var execute = new ExecuteTRA(client);
-        execute.Menu();
-
-        client.Shutdown(SocketShutdown.Both);
         break;
     }
     catch (Exception ex)
     {
-        Console.WriteLine($"| Erro no Sitema: {ex.Message} \n");
+        Console.WriteLine($"| Erro no Sistema: {ex.Message}\n");
     }
 
 } while (true);
