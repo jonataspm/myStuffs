@@ -37,14 +37,14 @@ namespace Server
 
                         SendMessage($"{result}");
                     }
-                    catch (OperatorException ex)
-                    {
-                        SendMessage(ex.Message);
-                        LogGenerator.CreateLogError(ex, "StartProcess");
-                    }
                     catch (FormatException ex)
                     {
                         SendMessage("Revise as informações enviadas");
+                        LogGenerator.CreateLogError(ex, "StartProcess");
+                    }
+                    catch (OperatorException ex)
+                    {
+                        SendMessage(ex.Message);
                         LogGenerator.CreateLogError(ex, "StartProcess");
                     }
                     catch (ArithmeticException ex)
