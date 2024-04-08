@@ -27,7 +27,7 @@ namespace Client
             int choice;
             do
             {
-                Task.Delay(1000);
+                Console.Clear();
    
                 Console.WriteLine(menu);
                 Console.Write("| Escolha uma opção: ");
@@ -35,6 +35,8 @@ namespace Client
                 if (!int.TryParse(Console.ReadLine(), out choice) || choice < 0 || choice > 4)
                 {
                     Console.WriteLine("| Opção inválida. Por favor, escolha uma opção válida.");
+                    Console.WriteLine($"| Pressione para continuar...");
+                    Console.ReadKey();
                     continue;
                 }
 
@@ -45,7 +47,6 @@ namespace Client
                 Console.WriteLine($"| Resultado: {response}");
                 Console.WriteLine($"| Pressione para continuar...");
                 Console.ReadKey();
-                Console.Clear();
 
             } while (choice != 0);
         }
