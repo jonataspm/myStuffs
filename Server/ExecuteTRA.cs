@@ -29,11 +29,10 @@ namespace Server
                         clientMessage = clientMessage.Substring(1);
                         string[] operands = clientMessage.Split(";");
 
-                        decimal result = 0;
                         int op1 = int.Parse(operands[0]);
                         int op2 = int.Parse(operands[1]);
 
-                        result = GetResultOperation(operatorSymbol, op1, op2);
+                        decimal result = GetResultOperation(operatorSymbol, op1, op2);
 
                         SendMessage($"{result}");
                     }
@@ -79,10 +78,10 @@ namespace Server
 
         private static decimal GetResultOperation(string operatorSymbol, int op1, int op2) => operatorSymbol switch
         {
-            "+" => op1 + op2,
-            "-" => op1 - op2,                
-            "*" => op1 * op2,                
-            "/" => op1 / op2,
+            "+" => (decimal)op1 + op2,
+            "-" => (decimal)op1 - op2,                
+            "*" => (decimal)op1 * op2,                
+            "/" => (decimal)op1 / op2,
             _ => throw new OperatorException("A operação é inválida!")
         };
 
