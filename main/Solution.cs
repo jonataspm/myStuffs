@@ -243,7 +243,83 @@ public class Solution
     #endregion
 
 
-    #region Questão
+    #region Questão 1334 - Medium
+    public static int FindTheCity(int n, int[][] edges, int distanceThreshold)
+    {
+        List<City> cities = new List<City>();
+
+        for (int i = 0; i < n; i++)
+            cities.Add(new City() { Name = i });
+
+        foreach (var edge in edges)
+        {
+            cities[edge[0]].Neighbors.Add(new Neighbor { City = cities[edge[1]], Distance = edge[2] });
+            cities[edge[1]].Neighbors.Add(new Neighbor { City = cities[edge[0]], Distance = edge[2] });
+        }
+
+        City city = FindCityWithFewestNeighborsWithinDistance(cities, distanceThreshold);
+
+        return city.Name;
+    }
+
+    private static City FindCityWithFewestNeighborsWithinDistance(List<City> cities, int distanceThreshold)
+    {
+        City isolatedCity = null;
+        int minNeighbors = -1;
+
+        foreach (var city in cities)
+        {
+            HashSet<City> visited = new HashSet<City>();
+            int neighborsCount = CountReachableCities(city, distanceThreshold, visited);
+
+            if (neighborsCount <= minNeighbors || minNeighbors == -1)
+            {
+                minNeighbors = neighborsCount;
+                isolatedCity = city;
+            }
+        }
+
+        return isolatedCity;
+    }
+
+    private static int CountReachableCities(City city, int distanceThreshold, HashSet<City> visited)
+    {
+        int count = 0;
+        Queue<(City, int)> queue = new Queue<(City, int)>();
+        queue.Enqueue((city, distanceThreshold));
+        visited.Add(city);
+
+        while (queue.Count > 0)
+        {
+            var (currentCity, remainingDistance) = queue.Dequeue();
+
+            foreach (var neighbor in currentCity.Neighbors)
+            {
+                if (!visited.Contains(neighbor.City) && neighbor.Distance <= remainingDistance)
+                {
+                    visited.Add(neighbor.City);
+                    queue.Enqueue((neighbor.City, remainingDistance - neighbor.Distance));
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    }
+
+    public class City
+    {
+        public int Name { get; set; }
+        public List<Neighbor> Neighbors { get; set; } = new List<Neighbor>();
+    }
+
+    public class Neighbor
+    {
+        public City City { get; set; }
+        public int Distance { get; set; }
+    }
+
+
     #endregion
 
     #region Questão
